@@ -1,0 +1,40 @@
+server:
+  port: 8082
+
+spring:
+  # Kafka
+  kafka:
+    bootstrap-servers: localhost:29092
+    consumer:
+      group-id: "metrics-1"
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: '*'
+
+  # Database
+  datasource:
+    url: jdbc:postgresql://localhost:5432/metrics
+    username: postgres
+    password: postgres
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        generate_statistics: true
+    hibernate:
+      ddl-auto: create-drop
+
+# Logging configuration
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
+
+
+topic:
+  metrics-event: metrics-event
