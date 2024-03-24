@@ -1,6 +1,6 @@
 # Демонстрация работы consumer и producer Java Spring Boot с использованием Kafka, Zookeeper, Postgres и Grafana
 
-![img_1.png](img_1.png)
+![img.png](img.png)
 
 ## Producer
 
