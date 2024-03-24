@@ -22,21 +22,16 @@ public class MetricsCollector {
     public Map<String, Double> collectMetrics() {
         Map<String, Double> metricsData = new HashMap<>();
 
-        metricsData.put("tomcat.sessions.created", getMetricValue("tomcat.sessions.created"));
-        metricsData.put("tomcat.sessions.active.current", getMetricValue("tomcat.sessions.active.current"));
         metricsData.put("system.cpu.usage", getMetricValue("system.cpu.usage"));
         metricsData.put("process.uptime", getMetricValue("process.uptime"));
-        metricsData.put("process.start.time", getMetricValue("process.start.time"));
         metricsData.put("jvm.memory.used", convertBytesToMB(getMetricValue("jvm.memory.used")));
         metricsData.put("jvm.memory.committed", convertBytesToMB(getMetricValue("jvm.memory.committed")));
-        metricsData.put("jvm.memory.max", convertBytesToMB(getMetricValue("jvm.memory.max")));
         metricsData.put("jvm.gc.memory.allocated", convertBytesToMB(getMetricValue("jvm.gc.memory.allocated")));
         metricsData.put("jvm.threads.live", getMetricValue("jvm.threads.live"));
         metricsData.put("jvm.threads.daemon", getMetricValue("jvm.threads.daemon"));
-        metricsData.put("jvm.threads.peak", getMetricValue("jvm.threads.peak"));
-        metricsData.put("system.load.average.1m", getMetricValue("system.load.average.1m"));
         metricsData.put("process.files.open", getMetricValue("process.files.open"));
         metricsData.put("process.cpu.usage", getMetricValue("process.cpu.usage"));
+
         return metricsData;
     }
 

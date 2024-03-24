@@ -19,7 +19,6 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 2,
   "links": [],
   "panels": [
     {
@@ -61,7 +60,7 @@
       "gridPos": {
         "h": 4,
         "w": 6,
-        "x": 0,
+        "x": 5,
         "y": 1
       },
       "id": 1,
@@ -138,6 +137,90 @@
         }
       ],
       "title": "Application uptime",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "PCC52D03280B7034C"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 11,
+        "y": 1
+      },
+      "id": 12,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "10.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "PCC52D03280B7034C"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT me.value as time_value, me.timestamp as time, me.name \nFROM meter_entity me \nWHERE me.name = 'process.files.open' \nORDER BY me.timestamp DESC\nLIMIT 1",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Files opened ",
       "type": "stat"
     },
     {
@@ -410,6 +493,9 @@
             },
             "insertNulls": false,
             "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
             "lineWidth": 1,
             "pointSize": 5,
             "scaleDistribution": {
@@ -524,17 +610,123 @@
       "type": "timeseries"
     },
     {
-      "collapsed": false,
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "PCC52D03280B7034C"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisGridShow": true,
+            "axisLabel": "",
+            "axisPlacement": "left",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 3,
+            "gradientMode": "hue",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": 3600000,
+            "lineInterpolation": "smooth",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "log": 2,
+              "type": "log"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "decimals": 0,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "decmbytes"
+        },
+        "overrides": []
+      },
       "gridPos": {
-        "h": 1,
-        "w": 24,
+        "h": 8,
+        "w": 7,
         "x": 0,
         "y": 14
       },
-      "id": 3,
-      "panels": [],
-      "title": "HTTP server",
-      "type": "row"
+      "id": 10,
+      "options": {
+        "legend": {
+          "calcs": [
+            "max",
+            "min"
+          ],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "adgh2whylpngge"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT me.value as memory_commited, me.timestamp as time, me.name \nFROM meter_entity me \nWHERE me.name = 'jvm.memory.committed' \nORDER BY me.timestamp DESC\nLIMIT 1000",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "meter_entity"
+        }
+      ],
+      "title": "JVM Memory commited (MB)",
+      "type": "timeseries"
     },
     {
       "datasource": {
@@ -562,7 +754,7 @@
               "viz": false
             },
             "insertNulls": false,
-            "lineInterpolation": "linear",
+            "lineInterpolation": "smooth",
             "lineWidth": 1,
             "pointSize": 5,
             "scaleDistribution": {
@@ -580,31 +772,31 @@
           },
           "mappings": [],
           "thresholds": {
-            "mode": "absolute",
+            "mode": "percentage",
             "steps": [
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
-          }
+          },
+          "unit": "percentunit"
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 7,
-        "x": 0,
-        "y": 15
+        "x": 7,
+        "y": 14
       },
-      "id": 7,
+      "id": 9,
       "options": {
         "legend": {
-          "calcs": [],
+          "calcs": [
+            "min",
+            "max"
+          ],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
@@ -623,7 +815,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT me.value as tomcat_session_created, me.timestamp as time, me.name \nFROM meter_entity me \nWHERE me.name = 'tomcat.sessions.created' \nORDER BY me.timestamp DESC\nLIMIT 1000",
+          "rawSql": "SELECT me.value as jvm_cpu_usage, me.timestamp as time, me.name \nFROM meter_entity me \nWHERE me.name = 'process.cpu.usage' \nORDER BY me.timestamp DESC\nLIMIT 1000\n",
           "refId": "A",
           "sql": {
             "columns": [
@@ -644,7 +836,7 @@
           }
         }
       ],
-      "title": "Tomcat session created",
+      "title": "JVM cpu usage (%)",
       "type": "timeseries"
     },
     {
@@ -652,6 +844,7 @@
         "type": "grafana-postgresql-datasource",
         "uid": "PCC52D03280B7034C"
       },
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -661,23 +854,28 @@
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
+            "axisGridShow": true,
             "axisLabel": "",
-            "axisPlacement": "auto",
+            "axisPlacement": "left",
             "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
+            "fillOpacity": 3,
+            "gradientMode": "hue",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
+            "insertNulls": 3600000,
+            "lineInterpolation": "smooth",
+            "lineStyle": {
+              "fill": "solid"
+            },
             "lineWidth": 1,
             "pointSize": 5,
             "scaleDistribution": {
-              "type": "linear"
+              "log": 2,
+              "type": "log"
             },
             "showPoints": "auto",
             "spanNulls": false,
@@ -689,6 +887,7 @@
               "mode": "off"
             }
           },
+          "decimals": 0,
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -696,26 +895,26 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
-          }
+          },
+          "unit": "decmbytes"
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 7,
-        "x": 7,
-        "y": 15
+        "x": 0,
+        "y": 22
       },
-      "id": 9,
+      "id": 11,
       "options": {
         "legend": {
-          "calcs": [],
+          "calcs": [
+            "max",
+            "min"
+          ],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
@@ -734,7 +933,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT me.value as active_sessions, me.timestamp as time, me.name \nFROM meter_entity me \nWHERE me.name = 'tomcat.sessions.active.current' \nORDER BY me.timestamp DESC\nLIMIT 1000",
+          "rawSql": "SELECT me.value as gc_memory_allocated, me.timestamp as time, me.name \nFROM meter_entity me \nWHERE me.name = 'jvm.gc.memory.allocated' \nORDER BY me.timestamp DESC\nLIMIT 1000",
           "refId": "A",
           "sql": {
             "columns": [
@@ -751,43 +950,29 @@
                 "type": "groupBy"
               }
             ],
-            "limit": 50,
-            "whereJsonTree": {
-              "children1": [
-                {
-                  "id": "899bbb98-4567-489a-bcde-f18e6c389525",
-                  "properties": {
-                    "fieldSrc": "field",
-                    "value": [],
-                    "valueSrc": []
-                  },
-                  "type": "rule"
-                }
-              ],
-              "id": "b888a989-0123-4456-b89a-b18e6c1403ae",
-              "type": "group"
-            }
-          }
+            "limit": 50
+          },
+          "table": "meter_entity"
         }
       ],
-      "title": "Tomcat active sessions",
+      "title": "GC memory allocated (MB)",
       "type": "timeseries"
     }
   ],
-  "refresh": "5s",
+  "refresh": "",
   "schemaVersion": 39,
   "tags": [],
   "templating": {
     "list": []
   },
   "time": {
-    "from": "now-15m",
-    "to": "now"
+    "from": "2024-03-24T05:21:04.777Z",
+    "to": "2024-03-24T05:25:31.965Z"
   },
   "timepicker": {},
   "timezone": "browser",
   "title": "Spring boot metrics from PostgreSQL",
   "uid": "adghubuost2wwb",
-  "version": 2,
+  "version": 1,
   "weekStart": ""
 }

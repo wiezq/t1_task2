@@ -69,8 +69,46 @@ services:
     ports:
       - "5432:5432"
 
+  metrics-producer:
+    build:
+      ./metrics-producer
+    depends_on:
+      kafka:
+        condition: service_healthy
+      kafka-topics-generator:
+        condition: service_completed_successfully
+    environment:
+        SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+        # set inside port to 8080
+        SERVER_PORT: 8080
+    ports:
+      - "8080:8080"
+
+  metrics-consumer:
+    build:
+      ./metrics-consumer
+    depends_on:
+      kafka:
+        condition: service_healthy
+      psql:
+        condition: service_healthy
+      kafka-topics-generator:
+        condition: service_completed_successfully
+    environment:
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      SERVER_PORT: 8081
+
+      SPRING_DATASOURCE_URL: jdbc:postgresql://psql:5432/metrics
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    ports:
+      - "8081:8081"
+
   grafana:
     image: grafana/grafana
+    depends_on:
+        psql:
+            condition: service_healthy
     ports:
       - 3000:3000
     environment:

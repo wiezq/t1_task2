@@ -19,7 +19,7 @@ public class MetricsService {
 
   private final MetricsCollector metricsCollector;
 
-  @Scheduled(fixedRate = 5, timeUnit = TimeUnit.SECONDS)
+  @Scheduled(fixedRate = 5, initialDelay = 5, timeUnit = TimeUnit.SECONDS)
   public void sendMetrics() {
     // Собираем метрики
     Map<String, Double> metricsData = metricsCollector.collectMetrics();

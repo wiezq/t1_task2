@@ -36,7 +36,7 @@ public class KafkaService {
               meter.setTimestamp(message.getTimestamp());
               metrics.add(meter);
             });
-    log.info("Consumed metrics: {} -- {}", record.key(), message);
+    log.info("Consumed metrics: {}", record.key());
     metricsService.saveMetrics(metrics);
   }
 }

@@ -1,10 +1,11 @@
-server:
-  port: 8082
+
+topic:
+  metrics-event: metrics-event
 
 spring:
   # Kafka
   kafka:
-    bootstrap-servers: localhost:29092
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS}
     consumer:
       group-id: "metrics-1"
       auto-offset-reset: earliest
@@ -23,18 +24,16 @@ spring:
     password: postgres
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-    properties:
-      hibernate:
-        generate_statistics: true
     hibernate:
       ddl-auto: create-drop
 
+# Statistics
+#    properties:
+#      hibernate:
+#        generate_statistics: true
+
 # Logging configuration
-logging:
-  level:
-    org.hibernate.SQL: debug
-    org.hibernate.type.descriptor.sql.BasicBinder: trace
-
-
-topic:
-  metrics-event: metrics-event
+#logging:
+#  level:
+#    org.hibernate.SQL: debug
+#    org.hibernate.type.descriptor.sql.BasicBinder: trace
